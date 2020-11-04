@@ -47,7 +47,7 @@ class Loan:
     for i in range(0,self.period_in_years*12):
       temp_list_one_row=[]
       # print(i)
-      temp_list_one_row.append(getMonthwithIndex(i).date())
+      temp_list_one_row.append(getMonthwithIndex(i+1,self.starting_date).date())
       temp_list_one_row.append(self.getPrincipleAmount())
       temp_list_one_row.append(self.emi_amount)
       self.Interest_paid=(self.getPrincipleAmount()*(self.interest_in_year/100)/12)
@@ -60,7 +60,20 @@ class Loan:
       # print(temp_list_one_row)
       self.df = self.df.append(pd.Series(temp_list_one_row, index=self.column_names), ignore_index=True)
 
-a=Loan(100000,13,30)
+print("provide the date of Disbursement")
+year = int(input('Enter a year'))
+month = int(input('Enter a month'))
+day = int(input('Enter a day'))
+# date1 = datetime.date(year, month, day)
+date1 = datetime(year, month, day, 00, 00, 00, 00)
+# print(date1)
+
+print("Provide details of Loan")
+amount = int(input('Enter principle amount :'))
+rate = int(input('Enter the rate of interest accepted :'))
+duration = int(input('Enter the duration in years :'))
+
+a=Loan(amount,rate,duration,date1)
 
 a.populateDateFrame()
 
@@ -74,4 +87,3 @@ axes[1].plot(a.getDataFrame().MONTH,a.getDataFrame().PRINCIPLE_PAID,color="red")
 fig.tight_layout()
 
 plt.show()
-
